@@ -49,6 +49,10 @@ public class StoreController {
     public String handleSubmit(@Valid @ModelAttribute("item") Item item,
                                BindingResult result,
                                RedirectAttributes redirectAttributes) {
+        if (item.getPrice() < item.getDiscount()) {
+            result.rejectValue("price", "", "Price cannot be less than the discount");
+        }
+
         if (result.hasErrors()) {
             return "form";
         }
